@@ -1,20 +1,22 @@
-SRC := Process.cpp process_test.cpp
-OBJ := ${SRC:.cpp=.o}
-LIBS := 
-CC := g++
-CFLAGS := -Wall -g -std=c++0x
+CXX := g++
+CXX_FLAGS := -Wall -g -std=c++0x
+SRCS := Process.cpp process_test.cpp
+OBJS := $(SRCS:.cpp=.o)
 
-all: ${OBJ}
-	${CC} ${CFLAGS} -o process_test ${LIBS} ${OBJ}
+all: process_test
 
-#generate dependancy files at the same time as object compilation
+process_test: ${OBJS}
+	${CXX} $(CXX_FLAGS) -o $@ ${OBJS}
+
+child: child.o
+	${CXX} $(CXX_FLAGS) -o $@ child.o
+
 %.o : %.cpp
-	${CC} ${CXX_FLAGS} -MD -o $@ -c $< 
+	$(CXX) $(CXX_FLAGS) -MD -o $@ -c $<
 	@cp $*.d $*.P; \
-	  sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
-	 	  -e '/^$$/ d' -e 's/$$/ :/' < $*.P >> $*.d; \
-	  rm -f $*.P
+	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
+	-e '/^$$/ d' -e 's/$$/ :/' < $*.P >> $*.d; \
+	rm -f $*.P
 
 clean:
-	-rm *.o *.d *~
-
+	rm *.o *.d *~

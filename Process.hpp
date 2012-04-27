@@ -5,38 +5,47 @@
 #include <sys/poll.h>
 #include <iostream>
 #include <vector>
+#include <string>
+using namespace std;
 
 #define	PARENT_READ     m_readpipe[0]
-#define	CHILD_WRITE	m_readpipe[1]
+#define	CHILD_WRITE	    m_readpipe[1]
 #define CHILD_READ      m_writepipe[0]
 #define PARENT_WRITE	m_writepipe[1]
 
 class Process
 {
 public:
+    // Exception thrown by Process functions
+    struct ProcessException {
+        string errDesc;
+        bool fatal;
+        ProcessException(string d, bool f) : errDesc(d), fatal(f) {};
+    };
+    
     //The extra bool argument can be used to enable verbose messages
-    Process(const std::vector<char*>&, bool verbose);
-    Process(const std::vector<char*>&);
+    Process(const std::vector<std::string>&, bool verbose=false);
     
     // prevent copying and assignment
     Process(const Process &p);
     Process& operator=(const Process &p);
-/*
+
     //Implement a move constructor   
     Process(Process&& other);
     Process& operator=(Process&& other);
-*/
 
     ~Process();
 
     void write(const std::string&);
     std::string read();
+
     int wait();
     bool stop();
     bool resume();
     int status();
 
 private:
+    
     bool verbose;
     std::string m_name;
 
@@ -54,3 +63,4 @@ private:
 };
 
 #endif
+

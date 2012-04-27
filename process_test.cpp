@@ -8,37 +8,45 @@
 
 int main(int argc, char *argv[])
 {
-    using namespace std;
-    std::vector<char*> args;
+	using namespace std;
+	
+	if (argc <= 1) {
+		cerr << "Error: a process name must be given" << endl;
+		return(EXIT_FAILURE);
+	}
+	
+	vector<string> args;
 
-    for(int nn=1; nn<argc; ++nn)
-    {
-	std::cerr << "Arg: " << argv[nn] << std::endl;
+	for(int nn=1; nn<argc; ++nn)
+	{
+	cerr << "Arg: " << argv[nn] << endl;
 	args.push_back(argv[nn]);
-    }
-    args.push_back( NULL );
+	}
 
-    
-    string line;
-    string output;
+	string output;
 
-    {
-	Process myproc(args,true);
-	sleep(5);
-    /* write/read test
-    for(int n=0; n<5; ++n) {
-	stringstream ss(line);
-	ss << "This is test " << n << endl;
-	line = ss.str();
-	cerr << "calling write with line=" << line << "END" << endl;
-	myproc.write(line);
-	output = myproc.read();
-	cerr << "output from process: " << output << "END" << endl;
-    }
-    */
+	try {
+		Process myproc(args,true);
+	
+		for(int n=0; n<5; ++n) {
+			stringstream ss;
+			ss << "1+" << n << endl;
+			cerr << "calling write with line=" << ss.str() << "END" << endl;
+			myproc.write(ss.str());
+			output = myproc.read();
+			cerr << "output from process: " << output << "END" << endl;
+		}
+		cerr << "About to destroy process" << endl;
+		sleep(3);
+	} catch(Process::ProcessException e) {
+		if (e.fatal) cerr << "FATAL Error: ";
+		else cerr << "Nonfatal Error: ";
+		cerr << e.errDesc << endl;
+	}
 	cerr << "Process object destroyed" << endl;
-    }
-    cerr << "Program exiting.  Confirm child process has been cleaned up." << endl;
-    sleep(5);
-    return(EXIT_SUCCESS);
+
+	cerr << "Program exiting.  Confirm child process has been cleaned up." << endl;
+	sleep(3);
+	return(EXIT_SUCCESS);
 }
+
