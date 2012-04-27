@@ -10,6 +10,11 @@ This library allows for easy spawning and control of processes from a C++ progra
 	* The Process object waits for a specified time period for the child to finish on its own and then sends a TERM or KILL signal.
 	* The Process object sends a TERM or KILL signal imediately if the child process has not already finished at the time the Process destructor is called (when the object goes out of scope)
 	* ...
-* How might you modify your Process class to allow the programmer an easy way to use different destruction policies?
+	
+	How might you modify your Process class to allow the programmer an easy way to use different destruction policies?
+	
+	**Response**
 * How might you handle the case when a child process terminates before the parent process destroies it? I.e. how might the parent be signaled when a child terminates, and then read in any data it has written to its output.
+
+	**Response**
 * Feel free to implement any of these features for extra credit, but if they prevent the code from compiling or working as expected, then be sure to put them in a separate branch. Also, explicitly mention in your README file what you have implemented.
