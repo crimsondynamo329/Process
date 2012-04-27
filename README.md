@@ -4,7 +4,7 @@ This library allows for easy spawning and control of processes from a C++ progra
 ## HW6 Discussion Questions
 * Is this a good use of Object Oriented design? Why or why not?
 
-	> Yes, this seems like a very good use of object-oriented design.  It greatly reduces the use of duplicated code, increases modularity, improves code readability, and supports other areas of UNIX and object-oriented design philosophies.
+	*Yes, this seems like a very good use of object-oriented design.  It greatly reduces the use of duplicated code, increases modularity, improves code readability, and supports other areas of UNIX and object-oriented design philosophies.*
 * There are different possible desired behaviors for what happens when the Process object goes out of scope:
 	* The Process object waits until the child process has finished on its own (this has the effect of stalling the main program at the point at which the process object goes out of scope).
 	* The Process object waits for a specified time period for the child to finish on its own and then sends a TERM or KILL signal.
